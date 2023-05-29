@@ -3,6 +3,10 @@ import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
 import { useHistory } from "react-router";
 import Gratitude from "./../assets/grForm.png";
+import { useDispatch } from "react-redux";
+import { notEkleAPI } from "../actions";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function PostForm() {
   const {
@@ -13,6 +17,8 @@ export default function PostForm() {
 
   const history = useHistory();
 
+  const dispatch = useDispatch();
+
   function onSubmit(data) {
     const yeniNot = {
       id: nanoid(),
@@ -22,10 +28,15 @@ export default function PostForm() {
         .join("|"),
     };
 
+
+    dispatch(notEkleAPI(yeniNot));
+    toast.success("Favorilere eklediniz!",{ position: toast.POSITION.BOTTOM_RIGHT});
+    
+  
     // burada ilgili eylemi dispatch edin
     // toast mesajı gösterin
     // sonra aşağıdaki satırı aktifleştirin
-    // setTimeout(() => history.push("/notlar"), 2000);
+    setTimeout(() => history.push("/notlar"), 2000);
   }
 
   const inputCx = "border border-zinc-300 h-9 rounded-none text-sm px-2 w-full";
@@ -83,6 +94,7 @@ export default function PostForm() {
           Ekle
         </button>
       </form>
+      <ToastContainer/>
     </div>
   );
 }

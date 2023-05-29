@@ -1,10 +1,18 @@
 import React from "react";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
+import { useDispatch } from "react-redux";
+import { notSilAPI } from "../actions";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Post({ item }) {
 
+  const dispatch=useDispatch();
+
   function handleSil() {
+    dispatch(notSilAPI(item.id))
+    toast.warn("Favorilerden bir öğe sildiniz!",{ position: toast.POSITION.BOTTOM_RIGHT});
     // burada ilgili eylemi dispatch edin
     // sonra toast mesajı gösterin
   }
@@ -27,6 +35,7 @@ export default function Post({ item }) {
       <button className="text-xs text-amber-600 mt-4 underline" onClick={handleSil}>
         Bu notu sil
       </button>
+    <ToastContainer/>
     </div>
   );
 }
